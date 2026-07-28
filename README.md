@@ -1,72 +1,93 @@
-# Previsao de falha do motor
+# 🔧 Previsão para Manutenção Preventiva
 
-Projeto de Machine Learning para previsão de falha de motores (RUL) utilizando o dataset FD001 e modelos baseados em árvores com GridSearch e validação cruzada.
+Projeto de Machine Learning para previsão da **Vida Útil Remanescente (RUL — Remaining Useful Life)** de motores, utilizando o dataset **FD001** (NASA C-MAPSS) e modelos baseados em árvores otimizados com GridSearch e validação cruzada.
 
-# Previsão de Vida Útil Remanescente (RUL) – Dataset FD001
+## Sobre o Projeto
 
-## 1. Coleta de Dados
+O objetivo é prever quantos ciclos operacionais restam antes de um motor falhar, permitindo que a manutenção seja planejada de forma **preventiva** em vez de corretiva — reduzindo custos e paradas não programadas.
 
-O conjunto de dados utilizado foi o FD001, composto por séries temporais multivariadas que representam o funcionamento de uma frota de 100 motores do mesmo tipo.
+## Estrutura do Repositório
 
-Cada linha do dataset representa um ciclo operacional de um motor específico, contendo:
+```
+.
+├── data/              # Dataset FD001
+├── semantix.ipynb     # Notebook com todo o pipeline de análise e modelagem
+└── README.md
+```
+
+## Dataset
+
+O conjunto de dados **FD001** é composto por séries temporais multivariadas que representam o funcionamento de uma frota de **100 motores** do mesmo tipo. Cada linha representa um ciclo operacional de um motor específico, contendo:
 
 - Identificador da unidade (motor)
 - Número do ciclo operacional
 - 3 configurações operacionais
 - 21 medições de sensores
 
-No conjunto de treinamento, os motores operam até a falha completa.  
-No conjunto de teste, as séries temporais terminam antes da falha, sendo necessário prever a Vida Útil Remanescente (RUL).
+**Características do dataset:**
 
-O dataset considera:
+| Conjunto | Descrição |
+|---|---|
+| Treino | Motores operam até a falha completa |
+| Teste | Séries terminam antes da falha — é necessário prever o RUL |
+
 - Uma única condição operacional
 - Um único modo de falha (degradação do HPC)
 - Presença de ruído nos sensores
 
----
+## Metodologia
 
-## 2. Modelagem
-
-### Pré-processamento
-
+### 1. Pré-processamento
 - Separação entre conjunto de treino e teste
 - Definição da variável alvo (RUL)
-- Aplicação de validação cruzada (5 folds)
+- Validação cruzada com 5 folds
 
-### Modelos Avaliados
+### 2. Modelos Avaliados
+Modelos de aprendizado de máquina baseados em árvores:
 
-Foram testados modelos de aprendizado de máquina baseados em árvores:
+- **ExtraTrees Regressor**
+- **XGBoost Regressor**
 
-- ExtraTrees Regressor
-- XGBoost Regressor
+### 3. Validação e Otimização
+Utilização de **GridSearch com validação cruzada** para otimização de hiperparâmetros.
 
-### Validação
+## Resultados
 
-Foi utilizado GridSearch com validação cruzada para otimização dos hiperparâmetros.
+| Métrica | Valor |
+|---|---|
+| RMSE | 20.06 |
+| MAE | 15.29 |
+| R² | 0.767 |
 
-Melhores resultados obtidos:
+O modelo consegue explicar aproximadamente **76,7%** da variabilidade da variável alvo, com erro médio absoluto de cerca de **15 ciclos**.
 
-- **RMSE:** 20.06  
-- **MAE:** 15.29  
-- **R²:** 0.767  
-
-Os resultados indicam que o modelo consegue explicar aproximadamente 76,7% da variabilidade da variável alvo.
-
----
-
-## 3. Conclusões
-
-O modelo apresentou bom desempenho na previsão da Vida Útil Remanescente dos motores.
-
-Os resultados mostram:
+## Conclusões
 
 - Boa capacidade de generalização
-- Erro médio absoluto de aproximadamente 15 ciclos
 - Estabilidade entre os folds da validação cruzada
+- Modelos baseados em árvores se mostraram eficazes para o problema de previsão de falha em séries temporais industriais
 
-Apesar dos bons resultados, melhorias adicionais podem ser obtidas com:
-- Engenharia de atributos
+### Próximos passos
+- Engenharia de atributos adicional
 - Ajuste mais refinado de hiperparâmetros
 - Técnicas de ensemble
 
-O estudo demonstra que modelos baseados em árvores são eficazes para problemas de previsão de falha em séries temporais industriais.
+## Como executar
+
+```bash
+git clone https://github.com/Alnit4k/Previs-o-para-manuten-o-preventiva.git
+cd Previs-o-para-manuten-o-preventiva
+jupyter notebook semantix.ipynb
+```
+
+## Tecnologias
+
+- Python
+- Jupyter Notebook
+- scikit-learn (ExtraTrees, GridSearchCV)
+- XGBoost
+- Pandas / NumPy
+
+## Autor
+
+[Alnit4k](https://github.com/Alnit4k)
